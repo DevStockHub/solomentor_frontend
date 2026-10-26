@@ -12,6 +12,7 @@ import {
   Modal,
   Alert,
   ScrollView,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import {
@@ -126,10 +127,12 @@ export default function ChatScreen() {
   if (isInitializing) {
     return (
       <View style={[styles.center, { backgroundColor: colors.bg }]}>
+        <Image
+          source={require('@/assets/icon.png')}
+          style={{ width: 100, height: 100, borderRadius: 24, marginBottom: 24 }}
+          resizeMode="contain"
+        />
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={[styles.loadingText, { color: colors.textMuted }]}>
-          Loading SoloMentor Copilot...
-        </Text>
       </View>
     );
   }
@@ -248,6 +251,7 @@ export default function ChatScreen() {
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContent}
             showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
             onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
             renderItem={({ item }) => {
               const isAI = item.role === 'ai';

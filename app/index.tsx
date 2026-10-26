@@ -8,6 +8,9 @@ import {
   ActivityIndicator,
   RefreshControl,
   TextInput,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import {
@@ -93,10 +96,12 @@ export default function DashboardScreen() {
   if (isProfileLoading && !profile) {
     return (
       <View style={[styles.centerContainer, { backgroundColor: colors.bg }]}>
+        <Image
+          source={require('@/assets/icon.png')}
+          style={{ width: 100, height: 100, borderRadius: 24, marginBottom: 24 }}
+          resizeMode="contain"
+        />
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={[styles.loadingText, { color: colors.textMuted }]}>
-          Initializing SoloMentor...
-        </Text>
       </View>
     );
   }
@@ -104,95 +109,109 @@ export default function DashboardScreen() {
   // Profile setup card if no profile exists
   if (!profile) {
     return (
-      <ScrollView
-        contentContainerStyle={[styles.setupContainer, { backgroundColor: colors.bg }]}
+      <KeyboardAvoidingView
+        style={{ flex: 1, backgroundColor: colors.bg }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <View
-          style={[
-            styles.setupCard,
-            { backgroundColor: colors.surface, borderColor: colors.border },
-          ]}
+        <ScrollView
+          contentContainerStyle={[styles.setupContainer, { backgroundColor: colors.bg, paddingBottom: 160 }]}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <Text style={[styles.badge, { color: colors.primary }]}>
-            SOLOMENTOR INITIALIZATION
-          </Text>
-          <Text style={[styles.setupTitle, { color: colors.text }]}>
-            Welcome to SoloMentor
-          </Text>
-          <Text style={[styles.setupSubtitle, { color: colors.textMuted }]}>
-            An intentional AI-native pedagogical workspace for mentoring secondary school students.
-          </Text>
-
-          <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>
-            Mentor Name *
-          </Text>
-          <TextInput
+          <View
             style={[
-              styles.input,
-              {
-                backgroundColor: colors.surfaceElevated,
-                borderColor: colors.border,
-                color: colors.text,
-              },
+              styles.setupCard,
+              { backgroundColor: colors.surface, borderColor: colors.border },
             ]}
-            placeholder="e.g. Theo Michael"
-            placeholderTextColor={colors.textMuted}
-            value={setupName}
-            onChangeText={setSetupName}
-          />
-
-          <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>
-            Email Address (Optional)
-          </Text>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: colors.surfaceElevated,
-                borderColor: colors.border,
-                color: colors.text,
-              },
-            ]}
-            placeholder="mentor@example.com"
-            placeholderTextColor={colors.textMuted}
-            value={setupEmail}
-            onChangeText={setSetupEmail}
-            keyboardType="email-address"
-          />
-
-          <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>
-            Core STEM Subjects
-          </Text>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: colors.surfaceElevated,
-                borderColor: colors.border,
-                color: colors.text,
-              },
-            ]}
-            placeholder="e.g. Mathematics, Physics, Computer Science"
-            placeholderTextColor={colors.textMuted}
-            value={setupSubjects}
-            onChangeText={setSetupSubjects}
-          />
-
-          <TouchableOpacity
-            style={[styles.primaryButton, { backgroundColor: colors.primary }]}
-            onPress={handleCreateInitialProfile}
-            disabled={isSettingUp}
           >
-            {isSettingUp ? (
-              <ActivityIndicator color={colors.primaryFg} />
-            ) : (
-              <Text style={[styles.primaryButtonText, { color: colors.primaryFg }]}>
-                Launch Workspace
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            <View style={{ alignItems: 'center', marginBottom: 12 }}>
+              <Image
+                source={require('@/assets/icon.png')}
+                style={{ width: 68, height: 68, borderRadius: 16, marginBottom: 8 }}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={[styles.badge, { color: colors.primary, textAlign: 'center' }]}>
+              SOLOMENTOR INITIALIZATION
+            </Text>
+            <Text style={[styles.setupTitle, { color: colors.text, textAlign: 'center' }]}>
+              Welcome to SoloMentor
+            </Text>
+            <Text style={[styles.setupSubtitle, { color: colors.textMuted, textAlign: 'center' }]}>
+              An intentional AI-native pedagogical workspace for mentoring secondary school students.
+            </Text>
+
+            <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>
+              Mentor Name *
+            </Text>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  backgroundColor: colors.surfaceElevated,
+                  borderColor: colors.border,
+                  color: colors.text,
+                },
+              ]}
+              placeholder="e.g. Theo Michael"
+              placeholderTextColor={colors.textMuted}
+              value={setupName}
+              onChangeText={setSetupName}
+            />
+
+            <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>
+              Email Address (Optional)
+            </Text>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  backgroundColor: colors.surfaceElevated,
+                  borderColor: colors.border,
+                  color: colors.text,
+                },
+              ]}
+              placeholder="mentor@example.com"
+              placeholderTextColor={colors.textMuted}
+              value={setupEmail}
+              onChangeText={setSetupEmail}
+              keyboardType="email-address"
+            />
+
+            <Text style={[styles.inputLabel, { color: colors.textSecondary }]}>
+              Core STEM Subjects
+            </Text>
+            <TextInput
+              style={[
+                styles.input,
+                {
+                  backgroundColor: colors.surfaceElevated,
+                  borderColor: colors.border,
+                  color: colors.text,
+                },
+              ]}
+              placeholder="e.g. Mathematics, Physics, Computer Science"
+              placeholderTextColor={colors.textMuted}
+              value={setupSubjects}
+              onChangeText={setSetupSubjects}
+            />
+
+            <TouchableOpacity
+              style={[styles.primaryButton, { backgroundColor: colors.primary }]}
+              onPress={handleCreateInitialProfile}
+              disabled={isSettingUp}
+            >
+              {isSettingUp ? (
+                <ActivityIndicator color={colors.primaryFg} />
+              ) : (
+                <Text style={[styles.primaryButtonText, { color: colors.primaryFg }]}>
+                  Launch Workspace
+                </Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 
