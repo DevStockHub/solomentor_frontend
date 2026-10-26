@@ -1,0 +1,25 @@
+{
+  "cli": {
+    "version": ">= 14.0.0"
+  },
+  "build": {
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://solomentor-proxy.shutomick1.workers.dev/api/v1"
+      }
+    },
+    "production-apk": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://solomentor-proxy.shutomick1.workers.dev/api/v1"
+      }
+    }
+  }
+}
+

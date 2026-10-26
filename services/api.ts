@@ -18,7 +18,19 @@ import {
 } from "../types";
 
 function getApiBaseUrl(): string {
-  // 1. When running on native mobile device via Expo Go, dynamically detect the dev PC's IP
+  // 1. Check explicit EXPO_PUBLIC_API_URL first (e.g. Cloudflare Worker or Render production URL)
+  const envUrl = process.env.EXPO_PUBLIC_API_URL;
+  if (envUrl) {
+    if (
+      Platform.OS !== "web" &&
+      (envUrl.includes("127.0.0.1") || envUrl.includes("localhost"))
+    ) {
+      return "http://192.168.1.175:8000/api/v1";
+    }
+    return envUrl;
+  }
+
+  // 2. When running on native mobile device via Expo Go without envUrl, dynamically detect dev PC IP
   const hostUri =
     Constants.expoConfig?.hostUri ||
     (Constants as any).manifest2?.extra?.expoClient?.hostUri ||
@@ -31,24 +43,12 @@ function getApiBaseUrl(): string {
     }
   }
 
-  // 2. Check explicit EXPO_PUBLIC_API_URL, guarding against native localhost
-  const envUrl = process.env.EXPO_PUBLIC_API_URL;
-  if (envUrl) {
-    if (
-      Platform.OS !== "web" &&
-      (envUrl.includes("127.0.0.1") || envUrl.includes("localhost"))
-    ) {
-      return "http://192.168.1.175:8000/api/v1";
-    }
-    return envUrl;
-  }
-
   // 3. Fallbacks
   if (Platform.OS === "web") {
     return "http://127.0.0.1:8000/api/v1";
   }
 
-  return "http://192.168.1.175:8000/api/v1";
+  return "https://solomentor-proxy.shutomick1.workers.dev/api/v1";
 }
 
 const API_URL = getApiBaseUrl();

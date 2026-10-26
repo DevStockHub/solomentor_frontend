@@ -1,18 +1,19 @@
 {
   "expo": {
-    "name": "solomentor_frontend",
-    "slug": "solomentor_frontend",
+    "name": "SoloMentor",
+    "slug": "solomentor",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "solomentor",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.jonhystock.solomentor",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#070B14",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
